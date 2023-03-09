@@ -39,7 +39,7 @@ function Execute-HTTP-DOWNLOAD-GetCommand()
   [string]$results = $sr.ReadToEnd()
   return $results
   
-  return $result | | Out-File -FilePath $SAVE
+  return $result | Out-File -FilePath $SAVE
   
   
   
