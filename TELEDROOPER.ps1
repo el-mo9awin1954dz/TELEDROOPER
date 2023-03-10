@@ -32,7 +32,7 @@ function Execute-HTTP-DOWNLOAD-GetCommand()
         [string]$RUN
   )
   
-  $webRequest = [System.Net.WebRequest]::Create($target)
+  $webRequest = [System.Net.WebRequest]::Create($FILE)
   $webRequest.ServicePoint.Expect100Continue = $false
   $webRequest.Method = "Get"
   [System.Net.WebResponse]$resp = $webRequest.GetResponse()
